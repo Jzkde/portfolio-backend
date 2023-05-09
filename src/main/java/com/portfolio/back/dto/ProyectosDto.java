@@ -13,20 +13,30 @@ import lombok.Setter;
  */
 @Setter @Getter
 public class ProyectosDto {
-    
+
     private String nombre;
     private String solicitante;
     private String descricion;
     private String imagen;
+    private int anio;
+    private String proy;
+    private String repo;
 
     public ProyectosDto() {
     }
 
-    public ProyectosDto(String nombre, String solicitante, String descricion, String imagen) {
+    public ProyectosDto(String nombre, String solicitante, String descricion, String imagen, int anio, String proy, String repo) {
         this.nombre = nombre;
         this.solicitante = solicitante;
         this.descricion = descricion;
         this.imagen = imagen;
+        this.anio = anio;
+        this.proy = proy;
+        this.repo = repo;
     }
 
+    
+    
+    
+    
 }

@@ -25,15 +25,25 @@ public class Proyectos {
     private String solicitante;
     private String descricion;
     private String imagen;
+    private int anio;
+    private String proy;
+    private String repo;
 
     public Proyectos() {
     }
 
-    public Proyectos(String nombre, String solicitante, String descricion, String imagen) {
+    public Proyectos(String nombre, String solicitante, String descricion, String imagen, int anio, String proy, String repo) {
         this.nombre = nombre;
         this.solicitante = solicitante;
         this.descricion = descricion;
         this.imagen = imagen;
+        this.anio = anio;
+        this.proy = proy;
+        this.repo = repo;
     }
+    
+
+   
+   
 
 }
