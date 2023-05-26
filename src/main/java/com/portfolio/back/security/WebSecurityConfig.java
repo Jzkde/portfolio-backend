@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                 .and()
                 .csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.GET)
+                .requestMatchers("**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
