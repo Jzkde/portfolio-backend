@@ -1,24 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.portfolio.back.security;
 
 import com.portfolio.back.entity.Usuario;
-import java.util.Collection;
-import java.util.Collections;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-/**
- *
- * @author Jzkd
- */
+import java.util.Collection;
+import java.util.Collections;
+
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
-    
-    
+
+    // Instancia del objeto Usuario que contiene la información del usuario.
     private final Usuario usuario;
 
     @Override
@@ -38,25 +31,26 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-    return true;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-    return true;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-    return true;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-    return true;
+        return true;
     }
-    
-    public String getNombre(){
+
+    // Método adicional para obtener el nombre del usuario, no definido en UserDetails pero útil para otras funcionalidades.
+    public String getNombre() {
         return usuario.getNombre();
     }
 }

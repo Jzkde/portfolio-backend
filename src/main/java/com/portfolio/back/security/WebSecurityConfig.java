@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.portfolio.back.security;
 
 import lombok.AllArgsConstructor;
@@ -18,38 +14,44 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- *
- * @author Jzkd
- */
 @Configuration
 @AllArgsConstructor
 public class WebSecurityConfig {
 
-    
-   private UserDetailsService userDetailsService;
-   private JwtAuthorizationFilter jwtAuthorizationFilter;
-    
-    
+    private UserDetailsService userDetailsService;
+    private JwtAuthorizationFilter jwtAuthorizationFilter;
+
+    // Configura la cadena de filtros de seguridad, incluyendo los detalles de autenticación y autorización.
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
-    
+
+        // Filtro para gestionar la autenticación JWT.
         JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter();
         jwtAuthenticationFilter.setAuthenticationManager(authManager);
+
+        // Establece la URL donde se procesará la autenticación.
         jwtAuthenticationFilter.setFilterProcessesUrl("/login/");
-        
+
         return http
+
+                // Habilita el soporte para CORS (Cross-Origin Resource Sharing).
                 .cors()
                 .and()
+
+                // Deshabilita CSRF (Cross-Site Request Forgery) ya que se usa JWT que es inmune a CSRF.
                 .csrf().disable()
+
+                // Permite todas las solicitudes GET sin autenticación.
                 .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.GET)
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and())
-                .httpBasic()
-                .and()
+                        .requestMatchers(HttpMethod.GET)
+                        .permitAll()
+
+                        // Requiere autenticación para cualquier otra solicitud.
+                        .anyRequest()
+                        .authenticated()
+                        .and())
+
+                // Define la política de creación de sesiones como "sin estado" (stateless) ya que se usa JWT.
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -58,41 +60,20 @@ public class WebSecurityConfig {
                 .build();
     }
 
-    
-    
-    
-    
-    
-    /*   @Bean
-    UserDetailsService userDetailsService() {
-    InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-    manager.createUser(User.withUsername("admin")
-    .password(passwordEncoder().encode("admin"))
-    .roles()
-    .build());
-    return manager;
-    }*/
-    
+    // Configura el AuthenticationManager que gestiona la autenticación de usuarios.
     @Bean
-        AuthenticationManager authManager(HttpSecurity http)throws Exception{
-            return http.getSharedObject(AuthenticationManagerBuilder.class)
-                    .userDetailsService(userDetailsService)
-                    .passwordEncoder(passwordEncoder())
-                    .and()
-                    .build();
-                    
-        }
-        
-        @Bean
-        PasswordEncoder passwordEncoder(){
-            return new BCryptPasswordEncoder();
-        }
+    AuthenticationManager authManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
 
+                // Configura el servicio que se usará para obtener los detalles del usuario.
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder())
+                .and()
+                .build();
+    }
 
-
-
-public static void main(String[ ] args) {
-System.out.println("pass    " + new BCryptPasswordEncoder().encode("jake5859"));
-}
-
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }
